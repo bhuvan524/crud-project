@@ -1,21 +1,20 @@
-import { MongoClient } from "mongodb";
+import { MongoClient,ObjectId } from "mongodb";
 
 const dbName = "school";
 const url = "mongodb://127.0.0.1:27017";
 
 const client = new MongoClient(url);
 
+let db;
 const dbConnection = async () => {
-    try {
-        await client.connect();
-        const db = client.db(dbName);
-        const collection = db.collection('students');
+    
+    if(!db){
 
-        const result = await collection.find().toArray();
-        console.log(result);
-    } catch (error) {
-        console.log(error);
+        await client.connect();
+         db = client.db(dbName);
+        console.log('database connected');
     }
+       return db;
 };
 
 export default dbConnection;
